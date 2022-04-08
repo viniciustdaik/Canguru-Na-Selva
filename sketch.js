@@ -13,6 +13,8 @@ var score = 0;
 
 var gameOver, restart;
 
+var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
 function preload(){
   kangaroo_running = loadAnimation("assets/kangaroo1.png","assets/kangaroo2.png","assets/kangaroo3.png");
   kangaroo_collided = loadAnimation("assets/kangaroo1.png");
@@ -54,21 +56,27 @@ function setup() {
 }
 
 function draw() {
-  background("red");//jungleImage);//255
-  
+  //background("green");//jungleImage);//255
+  if(isMobile){
+    jungle.visible = false;
+    background(jungleImage);//255
+  }else{
+    background("green");//jungleImage);//255
+  }
+
    kangaroo.x = camera.position.x - 270;
 
 
 
 
   if (gameState === PLAY){
-
     jungle.velocityX =- 3
 
     if(jungle.x < windowWidth / 2 - 200)//100
     {
        jungle.x = windowWidth - 600;//400
     }
+    
    console.log(kangaroo.y)
     if(keyDown("space") && kangaroo.y > windowHeight - 130) {//270
       jumpSound.play();
