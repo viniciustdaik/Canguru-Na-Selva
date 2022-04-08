@@ -5,3 +5,20 @@ html, body {
 canvas {
   display: block;
 }
+
+.jumpbutton{
+  width:70px;
+  height: 70px;
+  border-radius: 35px;
+  background-image: url('./assets/up_arrow.png');
+  background-color: #9ea7a7;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  padding: 10px;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-transition-duration: 0.1s; /* Safari */
+  transition-duration: 0.1s;
+  outline: none;
+}
