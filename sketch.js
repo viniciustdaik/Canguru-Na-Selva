@@ -7,6 +7,8 @@ var gameState = PLAY;
 var kangaroo, kangaroo_running, kangaroo_collided;
 var jungle, invisiblejungle, jungleImage;
 
+var jumpbutton, buttonAllowed = false;
+
 var obstaclesGroup, obstacle1;
 
 var score = 0;
@@ -16,7 +18,7 @@ var gameOver, restart;
 var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 function preload(){
-  kangaroo_running = loadAnimation("assets/kangaroo1.png","assets/kangaroo2.png","assets/kangaroo3.png");
+  kangaroo_running = loadAnimation("assets/kangaroo1.png", "assets/kangaroo2.png", "assets/kangaroo3.png");
   kangaroo_collided = loadAnimation("assets/kangaroo1.png");
   jungleImage = loadImage("assets/bg.png");
   shrub1 = loadImage("assets/shrub1.png");
@@ -32,6 +34,15 @@ function preload(){
 function setup() {
   createCanvas(windowWidth, windowHeight);//800, 400
 
+  jumpbutton = createButton("");
+  jumpbutton.class("jumpbutton");
+  jumpbutton.position(width - width - width, -45);
+  jumpbutton.mousePressed(jump);
+  if(isMobile){
+    jumpbutton.position(width / 2, 25);
+  }
+  
+
   jungle = createSprite(width / 2, windowHeight / 2, windowWidth + 800, windowHeight);//400, 100, 400, 20
   jungle.addImage("jungle", jungleImage);
   jungle.scale = 0.4;//0.3
@@ -45,7 +56,7 @@ function setup() {
   //kangaroo.debug = true;
 
   invisibleGround = createSprite(400, windowHeight - 50, 1600, 10);//400, 450, 1600, 10
-  invisibleGround.shapeColor = "green";
+  invisibleGround.shapeColor = "brown";
   invisibleGround.visible = false;
   
   shrubsGroup = new Group();
@@ -65,7 +76,10 @@ function draw() {
   }
 
    kangaroo.x = camera.position.x - 270;
-
+  if(buttonAllowed == true && jumpbutton.x != width / 2
+   || buttonAllowed == true && jumpbutton.y != 25){
+    jumpbutton.position(width / 2, 25);
+   }
 
 
 
@@ -76,7 +90,7 @@ function draw() {
     {
        jungle.x = windowWidth - 600;//400
     }
-    
+
    console.log(kangaroo.y)
     if(keyDown("space") && kangaroo.y > windowHeight - 130) {//270
       jumpSound.play();
@@ -169,5 +183,12 @@ function spawnObstacles() {
     obstacle.lifetime = 400;
     obstaclesGroup.add(obstacle);
     
+  }
+}
+
+function jump(){
+  if(kangaroo.y > windowHeight - 130) {//270
+    jumpSound.play();
+    kangaroo.velocityY = -16;
   }
 }
