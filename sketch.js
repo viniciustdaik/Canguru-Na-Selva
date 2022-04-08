@@ -39,7 +39,7 @@ function setup() {
   jumpbutton.position(width - width - width, -45);
   jumpbutton.mousePressed(jump);
   if(isMobile){
-    jumpbutton.position(width / 2, 25);
+    jumpbutton.position(width / 2 -45, 25);
   }
   
 
