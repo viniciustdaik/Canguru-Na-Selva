@@ -63,11 +63,16 @@ function setup() {
   invisibleGround = createSprite(400, windowHeight - 50, 1600, 10);//400, 450, 1600, 10
   invisibleGround.shapeColor = "brown";
   invisibleGround.visible = false;
-
-  gameOver = createSprite(width / 2, height / 2 - 100);//400, 100
+  if(!isMobile){
+    gameOver = createSprite(width / 2, height / 2 - 100);//400, 100
+    restart = createSprite(width / 2 + 150, height / 2 - 100 + 40);//550, 140
+  }else{
+    gameOver = createSprite(width / 2, height / 2 + 100);//400, 100
+    restart = createSprite(width / 2 + 150, height / 2 + 100 - 40);//550, 140
+  }
+  
   gameOver.addImage(gameOverImg);
   
-  restart = createSprite(width / 2 + 150, height / 2 - 100 + 40);//550, 140
   restart.addImage(restartImg);
   
   gameOver.scale = 0.5;
