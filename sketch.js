@@ -11,7 +11,7 @@ var jumpbutton, buttonAllowed = false;
 
 var obstaclesGroup, obstacle1;
 
-var score = 0;
+var score = 0, highscore = 0;
 
 var gameOver, restart;
 
@@ -58,6 +58,18 @@ function setup() {
   invisibleGround = createSprite(400, windowHeight - 50, 1600, 10);//400, 450, 1600, 10
   invisibleGround.shapeColor = "brown";
   invisibleGround.visible = false;
+
+  gameOver = createSprite(width / 2, height / 2 - 100);//400, 100
+  gameOver.addImage(gameOverImg);
+  
+  restart = createSprite(width / 2 + 150, height / 2 - 100 + 40);//550, 140
+  restart.addImage(restartImg);
+  
+  gameOver.scale = 0.5;
+  restart.scale = 0.1;
+
+  gameOver.visible = false;
+  restart.visible = false;
   
   shrubsGroup = new Group();
   obstaclesGroup = new Group();
@@ -78,7 +90,7 @@ function draw() {
    kangaroo.x = camera.position.x - 270;
   if(buttonAllowed == true && jumpbutton.x != width / 2
    || buttonAllowed == true && jumpbutton.y != 25){
-    jumpbutton.position(width / 2, 25);
+    jumpbutton.position(width / 2 - 45, 55);
    }
 
 
@@ -86,9 +98,9 @@ function draw() {
   if (gameState === PLAY){
     jungle.velocityX =- 3
 
-    if(jungle.x < windowWidth / 2 - 200)//100
+    if(jungle.x < width / 2 - 200)//100
     {
-       jungle.x = windowWidth - 600;//400
+       jungle.x = width - 600;//400
     }
 
    console.log(kangaroo.y)
@@ -108,12 +120,21 @@ function draw() {
       gameState = END;
     }
     if(shrubsGroup.isTouching(kangaroo)){
-
-      shrubsGroup.destroyEach();
+      score = score + 1;
+      for(var shrub of shrubsGroup){
+        if(shrub.isTouching(kangaroo)){
+          shrub.destroy();
+        }
+        
+      }
+      //shrubsGroup.destroyEach();
     }
   }
   else if (gameState === END) {
-    
+    gameOver.x = camera.position.x;
+    restart.x = camera.position.x;
+    gameOver.visible = true;
+    restart.visible = true;
     kangaroo.velocityY = 0;
     jungle.velocityX = 0;
     obstaclesGroup.setVelocityXEach(0);
@@ -124,11 +145,49 @@ function draw() {
     obstaclesGroup.setLifetimeEach(-1);
     shrubsGroup.setLifetimeEach(-1);
     
+    if(mousePressedOver(restart)) {
+      reset();
+    }
   }
 
+  else if (gameState === WIN) {
+    jungle.velocityX = 0;
+    kangaroo.velocityY = 0;
+    obstaclesGroup.setVelocityXEach(0);
+    shrubsGroup.setVelocityXEach(0);
+
+    kangaroo.changeAnimation("collided", kangaroo_collided);
+
+    obstaclesGroup.setLifetimeEach(-1);
+    shrubsGroup.setLifetimeEach(-1);
+    
+    restart.x = camera.position.x;
+    restart.visible = true;
+    if(mousePressedOver(restart)) {
+      reset();
+    }
+  }
   
   drawSprites();
 
+  textSize(45);
+  fill('gold')
+  stroke('green');
+  //stroke(3);
+  //fill("black");
+  textAlign("center");
+  text("Pontuação: "+ score, camera.position.x, 50);
+
+  if(score >= 5){
+    kangaroo.visible = false;
+    textSize(30);
+    //stroke(3);
+    //fill("black");
+    fill('gold')
+    stroke('green');
+    text("Parabéns! Você Venceu O Jogo!", width / 2, height / 2);//70, 200
+    gameState = WIN;
+  }
 
 }
 
@@ -137,12 +196,12 @@ function spawnShrubs() {
   if (frameCount % 150 === 0) {
 
 
-     var shrub = createSprite(camera.position.x + windowWidth + 100, windowHeight - 70, 40, 10);
+     var shrub = createSprite(camera.position.x + width + 100, windowHeight - 70, 40, 10);
      //camera.position.x + 500, 330, 40, 10
 
 
 
-    shrub.velocityX = -(6 + 3*score/100)
+    shrub.velocityX = -(6 + 3*score/100);
     shrub.scale = 0.6;
 
     var rand = Math.round(random(1,3));
@@ -157,9 +216,9 @@ function spawnShrubs() {
     }
          
     shrub.scale = 0.05;
-    shrub.lifetime = 400;
+    shrub.lifetime = 420;
     
-    shrub.setCollider("rectangle",0,0,shrub.width/2,shrub.height/2)
+    shrub.setCollider("rectangle", 0, 0, shrub.width/2, shrub.height/2);
     shrubsGroup.add(shrub);
     
   }
@@ -171,13 +230,13 @@ function spawnObstacles() {
 
     
     
-     var obstacle = createSprite(camera.position.x + windowWidth, windowHeight - 70, 40, 40);
+     var obstacle = createSprite(camera.position.x + width, windowHeight - 70, 40, 40);
      //camera.position.x + 400, 330, 40, 40
 
 
-    obstacle.setCollider("rectangle", 0, 0, 200, 200)
+    obstacle.setCollider("rectangle", 0, 0, 200, 200);
     obstacle.addImage(obstacle1);
-    obstacle.velocityX = -(6 + 3*score/100)
+    obstacle.velocityX = -(6 + 3*score/100);
     obstacle.scale = 0.15;   
  
     obstacle.lifetime = 400;
@@ -192,3 +251,19 @@ function jump(){
     kangaroo.velocityY = -16;
   }
 }
+
+function reset(){
+  gameState = PLAY;
+  gameOver.visible = false;
+  restart.visible = false;
+  kangaroo.visible = true;
+  kangaroo.changeAnimation("running",
+               kangaroo_running);
+  obstaclesGroup.destroyEach();
+  shrubsGroup.destroyEach();
+  if(score > highscore){
+    highscore = score;
+  }
+  score = 0;
+}
+
