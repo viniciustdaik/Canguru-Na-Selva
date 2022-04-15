@@ -145,7 +145,8 @@ function draw() {
     obstaclesGroup.setLifetimeEach(-1);
     shrubsGroup.setLifetimeEach(-1);
     
-    if(mousePressedOver(restart)) {
+    if(mousePressedOver(restart) || touches.length > 0) {
+      touches = [];
       reset();
     }
   }
@@ -163,7 +164,8 @@ function draw() {
     
     restart.x = camera.position.x;
     restart.visible = true;
-    if(mousePressedOver(restart)) {
+    if(mousePressedOver(restart) || touches.length > 0) {
+      touches = [];
       reset();
     }
   }
