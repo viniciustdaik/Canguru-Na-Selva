@@ -19,7 +19,7 @@ var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 function preload(){
   kangaroo_running = loadAnimation("assets/kangaroo1.png", "assets/kangaroo2.png", "assets/kangaroo3.png");
-  kangaroo_collided = loadAnimation("assets/kangaroo1.png");
+  kangaroo_collided = loadAnimation("assets/kangaroo3.png");
   jungleImage = loadImage("assets/bg.png");
   shrub1 = loadImage("assets/shrub1.png");
   shrub2 = loadImage("assets/shrub2.png");
@@ -48,7 +48,12 @@ function setup() {
   jungle.scale = 0.4;//0.3
   //jungle.x = width /2;
 
-  kangaroo = createSprite(50, windowHeight / 2 + 200, 20, 50);//50, 200, 20, 50
+  if(windowHeight / 2 + 200 > windowHeight){
+    kangaroo = createSprite(50, windowHeight / 2, 20, 50);//50, 200, 20, 50
+  }else{
+    kangaroo = createSprite(50, windowHeight / 2 + 200, 20, 50);//50, 200, 20, 50
+  }
+  
   kangaroo.addAnimation("running", kangaroo_running);
   kangaroo.addAnimation("collided", kangaroo_collided);
   kangaroo.scale = 0.15;
@@ -90,7 +95,10 @@ function draw() {
    kangaroo.x = camera.position.x - 270;
   if(buttonAllowed == true && jumpbutton.x != width / 2
    || buttonAllowed == true && jumpbutton.y != 25){
-    jumpbutton.position(width / 2 - 45, 55);
+     if(!isMobile){
+      jumpbutton.position(width / 2 - 45, 55);
+     }
+    jumpbutton.position(width / 2 - 45, 95);
    }
 
 
