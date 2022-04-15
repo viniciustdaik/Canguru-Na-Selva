@@ -96,9 +96,11 @@ function draw() {
   if(buttonAllowed == true && jumpbutton.x != width / 2
    || buttonAllowed == true && jumpbutton.y != 25){
      if(!isMobile){
-      jumpbutton.position(width / 2 - 45, 55);
+      jumpbutton.position(width / 2 - 40, 55);
+     }else{
+       jumpbutton.position(width / 2 - 40, 95);
      }
-    jumpbutton.position(width / 2 - 45, 95);
+    
    }
 
 
