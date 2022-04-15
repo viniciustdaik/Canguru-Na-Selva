@@ -185,15 +185,22 @@ function draw() {
   stroke('green');
   //stroke(3);
   //fill("black");
-  textAlign("center");
-  text("Pontuação: "+ score, camera.position.x, 50);
+  if(!isMobile){
+    textAlign("center");
+  }
+  if(!isMobile){
+    text("Pontuação: "+ score, camera.position.x, 50);
+  }else{
+    text("Pontuação: "+ score, 50, 50);
+  }
 
   if(score >= 5){
+    textAlign("center");
     kangaroo.visible = false;
     textSize(30);
     //stroke(3);
     //fill("black");
-    fill('gold')
+    fill('gold');
     stroke('green');
     text("Parabéns! Você Venceu O Jogo!", width / 2, height / 2);//70, 200
     gameState = WIN;
