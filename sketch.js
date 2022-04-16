@@ -67,7 +67,7 @@ function setup() {
     gameOver = createSprite(width / 2, height / 2 - 100);//400, 100
     restart = createSprite(width / 2 + 150, height / 2 - 100 + 40);//550, 140
   }else{
-    gameOver = createSprite(width / 2, height / 2 + 100);//400, 100
+    gameOver = createSprite(width / 2, height / 2 + 90);//400, 100
     restart = createSprite(width / 2 + 150, height / 2 + 100 - 40);//550, 140
   }
   
