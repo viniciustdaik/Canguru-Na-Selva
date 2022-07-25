@@ -262,10 +262,12 @@ function spawnObstacles() {
 }
 
 function jump(){
-  if(kangaroo.y > windowHeight - 130) {//270
-    jumpSound.play();
-    kangaroo.velocityY = -16;
-    touches = [];
+  if(gameState == PLAY){
+    if(kangaroo.y > windowHeight - 130) {//270
+      jumpSound.play();
+      kangaroo.velocityY = -16;
+      touches = [];
+    }
   }
 }
 
