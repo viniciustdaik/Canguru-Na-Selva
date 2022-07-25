@@ -15,7 +15,7 @@ var score = 0, highscore = 0;
 
 var gameOver, restart;
 
-var isMobile = true;///iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 function preload(){
   kangaroo_running = loadAnimation("assets/kangaroo1.png", "assets/kangaroo2.png", "assets/kangaroo3.png");
