@@ -118,7 +118,7 @@ function draw() {
 
     console.log(kangaroo.y)
     if(keyDown("space") && kangaroo.y > windowHeight - 130 //270
-    || touches.length > 0 && kangaroo.y > windowHeight - 130 //270
+    || touches.length > 0 && kangaroo.y > windowHeight - 130 && buttonAllowed == false //270
     ||keyDown("W") && kangaroo.y > windowHeight - 130 //270
     ||keyDown("UP_ARROW") && kangaroo.y > windowHeight - 130) {//270
       jumpSound.play();
